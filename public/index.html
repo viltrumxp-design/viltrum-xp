@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Viltrum XP Gaming Hub — PlayStation gaming, slot booking, tournaments and offers in Kaptanpara, Purnia.">
+  <title>Viltrum XP Gaming Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="nav">
+    <a class="brand" href="#home">
+      <img src="logo.jpg" alt="Viltrum XP Gaming Hub logo">
+      <span>VILTRUM XP <small>GAMING HUB</small></span>
+    </a>
+    <nav>
+      <a href="#book">Book</a>
+      <a href="#rates">Rates</a>
+      <a href="#offers">Offers</a>
+      <a href="#updates">Updates</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="#book">BOOK A SLOT</a>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">KAPTANPARA • PURNIA</div>
+        <h1>PLAY.<br><span>COMPETE.</span><br>CONQUER.</h1>
+        <p>Premium PlayStation gaming, multiplayer sessions, tournaments and custom offers.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#book">Book Your Slot</a>
+          <a class="btn ghost" href="#rates">View Rates</a>
+        </div>
+        <div class="hero-note">☎ Pre-booking available by call</div>
+      </div>
+      <div class="hero-art">
+        <img src="poster.png" alt="Viltrum XP gaming hub promotional artwork">
+      </div>
+    </section>
+
+    <section id="book" class="section booking-section">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">LIVE SLOT BOOKING</div>
+          <h2>Reserve your session.</h2>
+        </div>
+        <div class="status-pill"><i></i> Booking system active</div>
+      </div>
+
+      <div class="booking-layout">
+        <form id="bookingForm" class="card booking-form">
+          <div class="form-grid">
+            <label>Date
+              <input id="date" type="date" required>
+            </label>
+            <label>Session length
+              <select id="duration" required>
+                <option value="30">30 Minutes — ₹40</option>
+                <option value="60" selected>1 Hour — ₹70</option>
+                <option value="90">1.5 Hours — ₹100</option>
+                <option value="120">2 Hours — ₹140</option>
+              </select>
+            </label>
+            <label>Start time
+              <select id="time" required></select>
+            </label>
+            <label>Players
+              <select id="players">
+                <option>1</option><option selected>2</option><option>3</option><option>4</option>
+              </select>
+            </label>
+          </div>
+          <div class="form-grid">
+            <label>Your name
+              <input id="name" type="text" placeholder="Enter your name" required>
+            </label>
+            <label>Phone number
+              <input id="phone" type="tel" inputmode="numeric" placeholder="10-digit number" pattern="[0-9]{10}" required>
+            </label>
+          </div>
+          <label>Notes (optional)
+            <textarea id="notes" rows="3" placeholder="Game preference, multiplayer request, etc."></textarea>
+          </label>
+          <div class="booking-summary">
+            <span>Total</span><strong id="total">₹70</strong>
+          </div>
+          <button class="btn primary full" type="submit">CONFIRM BOOKING</button>
+          <p class="tiny">This starter version saves bookings in this browser. Connect a database/payment gateway before public launch.</p>
+        </form>
+
+        <aside class="card availability">
+          <div class="card-title">Selected date</div>
+          <div id="selectedDateLabel" class="big-date">—</div>
+          <div class="legend"><span><i class="free"></i> Available</span><span><i class="busy"></i> Booked</span></div>
+          <div id="slotList" class="slot-list"></div>
+          <a class="call-link" href="tel:+917870075241">☎ 7870075241</a>
+        </aside>
+      </div>
+      <div id="bookingResult" class="result hidden"></div>
+    </section>
+
+    <section id="rates" class="section">
+      <div class="section-heading">
+        <div><div class="eyebrow">PLAYSTATION GAMING</div><h2>Simple rates. More play.</h2></div>
+      </div>
+      <div class="rates-grid">
+        <div class="rate-card"><span>30 MINUTES</span><b>₹40</b></div>
+        <div class="rate-card"><span>1 HOUR</span><b>₹70</b></div>
+        <div class="rate-card"><span>1.5 HOURS</span><b>₹100</b></div>
+        <div class="rate-card"><span>2 HOURS</span><b>₹140</b></div>
+      </div>
+    </section>
+
+    <section id="offers" class="section">
+      <div class="section-heading">
+        <div><div class="eyebrow">HOT RIGHT NOW</div><h2>Combo deals & offers.</h2></div>
+      </div>
+      <div class="offer-grid">
+        <article class="card offer"><div class="icon">🔥</div><h3>Gaming + Cold Drink</h3><p>₹90 / 1 Hour</p></article>
+        <article class="card offer"><div class="icon">🍟</div><h3>Gaming + Chips + Cold Drink</h3><p>₹100 / 1 Hour</p></article>
+        <article class="card offer"><div class="icon">🏆</div><h3>Special Offers</h3><p>Happy Hours • Student Offers • Memberships</p></article>
+        <article class="card offer"><div class="icon">🎮</div><h3>Group & Multiplayer</h3><p>Ask about group deals and tournament events.</p></article>
+      </div>
+    </section>
+
+    <section id="updates" class="section">
+      <div class="section-heading">
+        <div><div class="eyebrow">LATEST</div><h2>Hub updates.</h2></div>
+      </div>
+      <div class="updates card">
+        <div class="update"><span>NEW</span><div><h3>Tournaments coming soon</h3><p>Watch this space for registrations and event details.</p></div></div>
+        <div class="update"><span>INFO</span><div><h3>Pre-booking available by call</h3><p>Call 7870075241 to reserve before visiting.</p></div></div>
+        <div class="update"><span>HUB</span><div><h3>Membership plans</h3><p>Membership offers can be added here as soon as you decide the plans.</p></div></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-section">
+      <div class="contact-card">
+        <div><div class="eyebrow">FIND THE HUB</div><h2>Ready to play?</h2><p>Kaptanpara, Purnia</p></div>
+        <div class="contact-actions">
+          <a class="btn primary" href="tel:+917870075241">Call 7870075241</a>
+          <a class="btn ghost" href="#book">Pre-book a slot</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>VILTRUM XP GAMING HUB <span>•</span> PLAY • COMPETE • CONQUER</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

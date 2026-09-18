@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Viltrum XP Admin</title><link rel="stylesheet" href="styles.css"></head>
+<body><main class="section"><div class="eyebrow">VILTRUM XP</div><h1 style="font-family:'Barlow Condensed';font-size:64px;margin:8px 0 30px">BOOKING DASHBOARD</h1>
+<div class="card" style="padding:24px">
+<p style="color:#aaa">Shared online booking dashboard. Your admin key is required to view customer details.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin:20px 0">
+<input id="key" type="password" placeholder="Admin key" style="max-width:220px"><input id="filterDate" type="date" style="max-width:220px"><button class="btn primary" onclick="render()">Load bookings</button>
+</div><div id="message" style="color:#aaa;margin:10px 0"></div><div id="list"></div></div><p><a class="btn ghost" href="index.html">← Back to website</a></p></main>
+<script>
+const $=x=>document.getElementById(x); $('filterDate').value=new Date().toISOString().slice(0,10);
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+async function render(){const key=$('key').value.trim(); const date=$('filterDate').value; if(!key){$('message').textContent='Enter your admin key.';return} $('message').textContent='Loading…';
+try{const r=await fetch('/api/admin/bookings?date='+encodeURIComponent(date),{headers:{'x-admin-key':key},cache:'no-store'});const data=await r.json();if(!r.ok)throw new Error(data.error||'Access denied');
+$('message').textContent=`${data.length} booking(s)`; $('list').innerHTML=data.length?data.map(b=>`<div style="padding:18px 0;border-bottom:1px solid #29292f"><b>${esc(b.id)}</b> — ${esc(b.date)} • ${esc(b.time)} • ${esc(b.duration)} min • ₹${esc(b.amount)}<br><span style="color:#bbb">${esc(b.name)} • ${esc(b.phone)} • ${esc(b.players)} player(s)</span>${b.notes?`<br><small style="color:#777">${esc(b.notes)}</small>`:''}<br><span style="display:inline-block;margin-top:8px;color:${b.status==='cancelled'?'#ff6b6b':'#9f9'}">${esc(b.status)}</span> <button class="btn ghost" style="padding:6px 10px;margin-left:8px" onclick="cancelBooking('${esc(b.id)}')">Cancel</button></div>`).join(''):'<p style="color:#777">No bookings found.</p>';
+}catch(e){$('message').textContent=e.message;$('list').innerHTML=''} }
+async function cancelBooking(id){const key=$('key').value.trim();if(!confirm('Cancel this booking?'))return;const r=await fetch('/api/admin/bookings/'+encodeURIComponent(id),{method:'PATCH',headers:{'Content-Type':'application/json','x-admin-key':key},body:JSON.stringify({status:'cancelled'})});if(!r.ok){alert((await r.json()).error||'Could not cancel');return}render()}
+</script></body></html>
