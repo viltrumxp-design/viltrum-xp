@@ -11,7 +11,7 @@
     {
       "binding": "DB",
       "database_name": "viltrum-xp-bookings",
-      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+      "database_id": "36b50eca-7444-4b33-b17e-29523eb08cb3"
     }
   ]
 }
