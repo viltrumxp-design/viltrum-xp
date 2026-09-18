@@ -1,0 +1,17 @@
+{
+  "$schema": "https://developers.cloudflare.com/workers/wrangler/config-schema.json",
+  "name": "viltrum-xp",
+  "main": "./worker.js",
+  "compatibility_date": "2026-09-18",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "viltrum-xp-bookings",
+      "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+    }
+  ]
+}
