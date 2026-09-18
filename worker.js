@@ -10,7 +10,11 @@ function validDate(s){return /^\d{4}-\d{2}-\d{2}$/.test(s)}
 function validPhone(s){return /^\d{10}$/.test(s)}
 function slots(start,duration){const out=[]; for(let x=start;x<start+duration;x+=30) out.push(time(x)); return out;}
 function id(){return 'VXP-'+Date.now().toString(36).toUpperCase()+'-'+crypto.randomUUID().slice(0,4).toUpperCase()}
-async function adminOk(request,env){return env.ADMIN_KEY && request.headers.get('x-admin-key')===env.ADMIN_KEY}
+async function adminCheck(request,env){
+ const configured = typeof env.ADMIN_KEY === 'string' && env.ADMIN_KEY.trim().length > 0;
+ const provided = (request.headers.get('x-admin-key') || '').trim();
+ return {configured, valid: configured && provided === env.ADMIN_KEY.trim()};
+}
 
 export default {
  async fetch(request,env){
@@ -37,14 +41,14 @@ export default {
     return json({ok:true,id:bookingId,amount});
    }
    if(u.pathname==='/api/admin/bookings' && request.method==='GET'){
-    if(!(await adminOk(request,env))) return json({error:'Invalid admin key.'},401);
+    const auth=await adminCheck(request,env); if(!auth.configured) return json({error:'ADMIN_KEY is not configured on this active Worker deployment.'},503); if(!auth.valid) return json({error:'Invalid admin key.'},401);
     const date=u.searchParams.get('date');
     let q;if(validDate(date)) q=await env.DB.prepare('SELECT * FROM bookings WHERE date=? ORDER BY time').bind(date).all();
     else q=await env.DB.prepare('SELECT * FROM bookings ORDER BY date DESC,time DESC LIMIT 200').all();
     return json(q.results||[]);
    }
    if(u.pathname.startsWith('/api/admin/bookings/') && request.method==='PATCH'){
-    if(!(await adminOk(request,env))) return json({error:'Invalid admin key.'},401);
+    const auth=await adminCheck(request,env); if(!auth.configured) return json({error:'ADMIN_KEY is not configured on this active Worker deployment.'},503); if(!auth.valid) return json({error:'Invalid admin key.'},401);
     const bookingId=decodeURIComponent(u.pathname.split('/').pop()); const b=await request.json();
     if(!['confirmed','cancelled'].includes(b.status)) return json({error:'Invalid status.'},400);
     await env.DB.prepare('UPDATE bookings SET status=? WHERE id=?').bind(b.status,bookingId).run();
